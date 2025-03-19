@@ -36,8 +36,8 @@ python scripts/reinforcement_learning/rsl_rl/train.py --task Isaac-Bicycle-v0 --
 python scripts/reinforcement_learning/rsl_rl/play.py --task Isaac-Bicycle-v0
 ```
 
-# About modifications
-1. Add custom bicycle URDF/USD models under `assets/bicycle`
+# About our modifications
+1. Add custom bicycle URDF/USD models under `/robot_models`
 
 2. Add `bicycle.py` under `/source/isaaclab_assets/isaaclab_assets/robots/`
 
@@ -45,14 +45,27 @@ python scripts/reinforcement_learning/rsl_rl/play.py --task Isaac-Bicycle-v0
 
 4. Add `bicycle_env_cfg.py` under `source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/bicycle/` 
 
-5. `usd_path` in `bicycle.py` must be modified before running
+5. `usd_path` in `bicycle.py` **must be modified before running**
 
 6. Part of joint params are initialized in `bicycle.py`, some are specified in IsaacSim GUI (such as mass, effort, etc.)
 
-7. Model of bicycle consists of 4 rigid bodies: frame, steer, front wheel, rear wheel, and 3 joints: frame_steering_joint, steering_wheel_joint, frame_wheel_joint. frame_steering_joint is position controlled, steering_wheel_joint is freely rotated, and frame_wheel_joint is velocity controlled.
+7. Model of bicycle consists of 4 rigid bodies: 
+
+   - frame
+   - steer
+   - front wheel
+   - rear wheel
+
+   and 3 joints: 
+
+   - frame_steering_joint
+   - steering_wheel_joint
+   - frame_wheel_joint.
+
+   where frame_steering_joint is position controlled, steering_wheel_joint is freely rotated, and frame_wheel_joint is velocity controlled.
 
 8. Balancing policy is learned through RL, where the actor receives the state of the bicycle and outputs the steering angle and rear wheel velocity.
 
 9. What we're confused about:
-   - The modification of physical parameters in the USD model (including rigid bodies and joints) cannot correspond to the real world;
+   - The modification of physical parameters in the USD model (including rigid bodies and joints) cannot correspond to the physical simulation effect and the real world;
    - Some non-dynamic situations may occur (like rear-wheel slippage).
