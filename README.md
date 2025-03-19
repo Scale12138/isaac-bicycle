@@ -60,7 +60,7 @@ python scripts/reinforcement_learning/rsl_rl/play.py --task Isaac-Bicycle-v0
 
    - frame_steering_joint
    - steering_wheel_joint
-   - frame_wheel_joint.
+   - frame_wheel_joint
 
    where frame_steering_joint is position controlled, steering_wheel_joint is freely rotated, and frame_wheel_joint is velocity controlled.
 
