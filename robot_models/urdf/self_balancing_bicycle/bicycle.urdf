@@ -1,0 +1,140 @@
+<?xml version = "1.0" ?>
+<robot name = "bicycle" xmlns:xacro ="http://ros.org/wiki/xacro"> 
+<!-- frame -->
+
+	<link name="frame">
+		<collision>
+			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Frame.STL" scale = "0.001 0.001 0.001" />
+			</geometry>
+			<origin xyz = "0 0 0.300" rpy = "1.57 0 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</collision>
+
+		<visual>
+ 			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Frame.STL" scale = "0.001 0.001 0.001" />
+			</geometry>
+			<origin xyz = "0 0 0.300" rpy = "1.57 0 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</visual>
+		<inertial>
+			<origin xyz = "-0.05851 0.0651 0.02344" rpy = "0 0 0" /> <!-- Best value <origin xyz = "0.105 0.09 0.08042" rpy = "0 0 0" />-->
+			<mass value = "7.688725"/> <!-- original: 3.07549 -->
+			<inertia ixx ="0.408742612" iyy=".43345588340" izz=".81851513950" ixy="-0.02156193760" ixz ="-0.010543137225" iyz = "0.01173272475"/>
+		</inertial>
+	</link>
+<gazebo reference= "frame" >
+	<material>Gazebo/Blue</material>
+	<mu1 value="0.5"/>
+	<mu2 value="0.4"/>
+</gazebo>
+<!--frame-wheel joint-->
+
+	<joint name="frame-wheel_joint" type="continuous">
+		<origin xyz = "0.930 -0.075 0.305" rpy = "0 0 0" />
+		<parent link="frame"/>
+		<child link="wheel1" />
+		<axis xyz="0 1 0"/>
+		
+	
+	</joint>
+<!-- Wheel -->
+	<link name="wheel1">
+		<collision>
+			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Wheel.STL" scale = "0.001 0.001 0.001" />
+			</geometry>
+			<origin xyz = "-0.320 .020 -0.300" rpy = "1.57 0 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</collision>
+
+		<visual>
+ 			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Wheel.STL" scale = "0.001 0.001 0.001" />
+			</geometry>
+			<origin xyz = "-0.320 0.020 -0.300" rpy = "1.57 0 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</visual>
+		<inertial>
+			<origin xyz = "-0.61546 -0.31467 0.02344" rpy = "0 0 0" /> <!-- Best value <origin xyz = "0.105 0.09 0.08042" rpy = "0 0 0" />-->
+			<mass value = "4.5288"/> <!-- original: 0.45288 -->
+			<inertia ixx ="0.6536766041" iyy="1.9207414821" izz="2.5675547446" ixy="-0.8770688225" ixz ="-0.0653283078" iyz = "-0.0334002040"/>
+		</inertial>
+	</link>
+<gazebo reference= "wheel1" >
+	<material>Gazebo/Black</material>
+	<mu1 value="0.7"/>
+	<mu2 value="0.6"/>
+	
+</gazebo>
+<!--frame-steering joint-->
+
+	<joint name="frame-steering_joint" type="revolute">
+		<origin xyz = "0.035 -0.100 0.82" rpy = "0 0 0" />
+		<parent link="frame"/>
+		<child link="steering" />
+		<axis xyz="0 0 -0.523"/>
+		<limit upper="0.785" lower="-0.785" effort="30" velocity="30" />
+		<dynamics damping="0.2" friction="0.6"/>
+		<!-- Damping coefficient is random as of 20th May 2018-->
+	
+	</joint>
+
+<!--Steering-->
+	<link name="steering">
+		<collision>
+			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Steering.STL" scale = "0.001 0.001 0.001" />
+			</geometry> <!-- -0.115 -.285 -0.510-->
+			<origin xyz = "-0.175 0.295 -0.510" rpy = "1.57 0.05 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</collision>
+
+		<visual>
+ 			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Steering.STL" scale = "0.001 0.001 0.001" />
+			</geometry>
+			<origin xyz = "-0.175 0.295 -0.510" rpy = "1.57 0.05 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</visual>
+		<inertial>
+			<origin xyz = "-0.53293 -0.10150 0.02344" rpy = "0 0 0" /> <!-- Best value <origin xyz = "0.105 0.09 0.08042" rpy = "0 0 0" />-->
+			<mass value = "4.66173"/> <!-- original: 1.55391 -->
+			<inertia ixx ="0.39676933962" iyy="1.38553152678" izz="1.67534780118" ixy="-0.21365649072" ixz ="-0.05822891850" iyz = "-.01109045403"/>
+		</inertial>
+	</link>
+<gazebo reference= "steering" >
+	<material>Gazebo/Blue</material>
+</gazebo>
+<joint name="steering_wheel_joint" type="continuous">
+		<origin xyz = "-0.15 0 -0.505" rpy = "0 0 0" />
+		<parent link="steering"/>
+		<child link="wheel2" />
+		<axis xyz="0 1 0"/>
+
+		<!-- Damping coefficient is random as of 20th May 2018-->
+	
+	</joint>
+<!-- Wheel -->
+	<link name="wheel2">
+		<collision>
+			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Wheel.STL" scale = "0.001 0.001 0.001" />
+			</geometry>
+			<origin xyz = "-0.320 .020 -0.300" rpy = "1.57 0 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</collision>
+
+		<visual>
+ 			<geometry>
+				<mesh filename = "package://self_balancing_bicycle/meshes/Wheel.STL" scale = "0.001 0.001 0.001" />
+			</geometry>
+			<origin xyz = "-0.320 0.020 -0.300" rpy = "1.57 0 0"/><!-- Best value <origin xyz = "0.105 0.09 0" rpy = "0 0 0" />-->
+		</visual>
+		<inertial>
+			<origin xyz = "-0.61546 -0.31467 0.02344" rpy = "0 0 0" /> <!-- Best value <origin xyz = "0.105 0.09 0.08042" rpy = "0 0 0" />-->
+			<mass value = "4.5288"/> <!-- original: 0.45288 -->
+			<inertia ixx ="0.6536766041" iyy="1.9207414821" izz="2.5675547446" ixy="-0.8770688225" ixz ="-0.0653283078" iyz = "-0.0334002040"/>
+		</inertial>
+	</link>
+<gazebo reference= "wheel2" >
+	<material>Gazebo/Black</material>
+	<mu1 value="0.7"/>
+	<mu2 value="0.6"/>
+	
+</gazebo>
+</robot>
